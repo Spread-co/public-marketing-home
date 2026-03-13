@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Hero, value props, farm story, and CTA sections for the Spread.co marketing homepage",
   "scripts": {
-    "build": "weweb build --type=section",
+    "build": "weweb build -- name=public-marketing-home type=section",
     "serve": "weweb serve --type=section"
   },
   "devDependencies": {
