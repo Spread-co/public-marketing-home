@@ -1,5 +1,5 @@
 <template>
-  <div class="mktg-home">
+  <div v-if="!content.portalTarget || content.portalTarget === 'public'" class="mktg-home">
 
     <!-- ── LIVE SERVICE ALERTS ──────────────────────────────────────────── -->
     <div

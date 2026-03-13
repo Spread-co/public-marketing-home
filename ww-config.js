@@ -202,6 +202,13 @@ export default {
       bindable: true,
       defaultValue: '/signin',
     },
+    portalTarget: {
+      label: { en: 'Portal Target' },
+      type: 'Text',
+      bindable: true,
+      hidden: true,
+      defaultValue: '',
+    },
   },
   triggerEvents: [
     {
