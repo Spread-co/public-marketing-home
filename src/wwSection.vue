@@ -21,7 +21,7 @@
           <span class="mktg-home__alert-headline">{{ alert.headline }}</span>
           <span v-if="alert.body" class="mktg-home__alert-body">&nbsp;— {{ alert.body }}</span>
         </div>
-        <button class="mktg-home__alert-dismiss" @click="dismissAlert(alert.id)" aria-label="Dismiss">
+        <button class="mktg-home__alert-dismiss" @click="dismissAlert(alert.id)" aria-label="Dismiss" data-tooltip="Dismiss this notice">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
@@ -40,12 +40,14 @@
             class="mktg-home__btn mktg-home__btn--primary"
             :href="content.heroPrimaryUrl || '/signin'"
             @click.prevent="heroCta('primary')"
+            data-tooltip="Check if we deliver to your postcode"
           >{{ content.heroPrimaryLabel }}</a>
           <a
             v-if="content.heroSecondaryLabel"
             class="mktg-home__btn mktg-home__btn--secondary"
             :href="content.heroSecondaryUrl || '/about'"
             @click.prevent="heroCta('secondary')"
+            data-tooltip="Learn more about how Spread.co works"
           >{{ content.heroSecondaryLabel }}</a>
         </div>
 
@@ -63,6 +65,18 @@
       </div>
     </section>
 
+    <!-- ── STATS ────────────────────────────────────────────────────────── -->
+    <section class="mktg-home__stats" v-if="content.showStats && content.stats && content.stats.length">
+      <div class="mktg-home__stats-inner">
+        <dl class="mktg-home__stats-grid">
+          <div v-for="(stat, i) in content.stats" :key="i" class="mktg-home__stat">
+            <dt class="mktg-home__stat-number">{{ stat.number }}</dt>
+            <dd class="mktg-home__stat-label">{{ stat.label }}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
     <!-- ── VALUE PROPS ──────────────────────────────────────────────────── -->
     <section class="mktg-home__values" v-if="content.showValueProps && valueProps.length">
       <div class="mktg-home__section-inner">
@@ -72,6 +86,35 @@
             <div class="mktg-home__value-icon" v-html="getIcon(vp.icon)" aria-hidden="true"></div>
             <h3 class="mktg-home__value-title">{{ vp.title }}</h3>
             <p class="mktg-home__value-body">{{ vp.body }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FARM STORY ───────────────────────────────────────────────────── -->
+    <section class="mktg-home__farms" v-if="content.showFarmStory && farmPartners.length">
+      <div class="mktg-home__section-inner">
+        <div class="mktg-home__farms-header">
+          <span class="mktg-home__eyebrow" v-if="content.farmsEyebrow">{{ content.farmsEyebrow }}</span>
+          <h2 class="mktg-home__section-headline" v-if="content.farmsHeadline">{{ content.farmsHeadline }}</h2>
+          <p class="mktg-home__farms-intro" v-if="content.farmsBody">{{ content.farmsBody }}</p>
+        </div>
+        <div class="mktg-home__farms-grid">
+          <article v-for="(farm, i) in farmPartners" :key="i" class="mktg-home__farm-card">
+            <div class="mktg-home__farm-img-wrap">
+              <img v-if="farm.imageUrl" :src="farm.imageUrl" :alt="farm.name" class="mktg-home__farm-img" loading="lazy" />
+              <div v-else class="mktg-home__farm-img-placeholder" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </div>
+            </div>
+            <div class="mktg-home__farm-info">
+              <h3 class="mktg-home__farm-name">{{ farm.name }}</h3>
+              <p class="mktg-home__farm-region" v-if="farm.region">{{ farm.region }}</p>
+              <p class="mktg-home__farm-desc" v-if="farm.description">{{ farm.description }}</p>
+            </div>
           </article>
         </div>
       </div>
@@ -101,6 +144,7 @@
         class="mktg-home__btn mktg-home__btn--primary mktg-home__btn--large"
         :href="content.bottomCtaUrl || '/signin'"
         @click.prevent="$emit('trigger-event', { name: 'home:bottom-cta', event: {} })"
+        data-tooltip="Create your account and check area availability"
       >{{ content.bottomCtaLabel }}</a>
     </section>
 
@@ -218,6 +262,9 @@ export default {
     },
     visibleAlerts() {
       return this.liveAlerts.filter(a => !this.dismissedIds.includes(a.id)).slice(0, 2);
+    },
+    farmPartners() {
+      return Array.isArray(this.content.farmPartners) ? this.content.farmPartners : [];
     },
   },
 
@@ -644,4 +691,160 @@ export default {
 @media (min-width: 1280px) {
   .mktg-home__cta { padding: 120px 80px; }
 }
+
+/* ── Stats bar ───────────────────────────────────────────────────────────── */
+.mktg-home__stats {
+  background: var(--mh-primary);
+  padding: 40px 20px;
+}
+.mktg-home__stats-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.mktg-home__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  list-style: none;
+}
+.mktg-home__stat { text-align: center; }
+.mktg-home__stat-number {
+  display: block;
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-weight: 900;
+  color: var(--mh-gold);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.mktg-home__stat-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(230,216,202,0.8);
+  letter-spacing: 0.02em;
+}
+@media (min-width: 480px) {
+  .mktg-home__stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 768px) { .mktg-home__stats { padding: 48px 48px; } }
+@media (min-width: 1024px) { .mktg-home__stats { padding: 52px 64px; } }
+
+/* ── Farm story ──────────────────────────────────────────────────────────── */
+.mktg-home__farms {
+  background: var(--mh-bg);
+  padding: 72px 20px;
+}
+.mktg-home__farms-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.mktg-home__farms-intro {
+  font-size: 1.0625rem;
+  color: var(--mh-text-2);
+  max-width: 560px;
+  margin: 8px auto 0;
+  line-height: 1.65;
+}
+.mktg-home__farms-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+.mktg-home__farm-card {
+  background: var(--mh-surface);
+  border: 1px solid var(--mh-border);
+  border-radius: var(--mh-r-md);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.mktg-home__farm-card:hover {
+  box-shadow: 0 8px 28px rgba(75,22,45,0.1);
+  transform: translateY(-2px);
+}
+.mktg-home__farm-img-wrap {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--mh-bg-warm);
+}
+.mktg-home__farm-img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.4s ease;
+}
+.mktg-home__farm-card:hover .mktg-home__farm-img { transform: scale(1.04); }
+.mktg-home__farm-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--mh-border);
+}
+.mktg-home__farm-info { padding: 20px 20px 22px; }
+.mktg-home__farm-name {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--mh-primary);
+  margin-bottom: 4px;
+}
+.mktg-home__farm-region {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--mh-accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.mktg-home__farm-desc {
+  font-size: 0.9375rem;
+  color: var(--mh-text-2);
+  line-height: 1.6;
+}
+@media (min-width: 640px) {
+  .mktg-home__farms-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  .mktg-home__farms-grid { grid-template-columns: repeat(3, 1fr); }
+  .mktg-home__farms { padding: 88px 48px; }
+}
+@media (min-width: 1024px) { .mktg-home__farms { padding: 96px 64px; } }
+
+/* ── Tooltips ────────────────────────────────────────────────────────────── */
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4b162d;
+  color: #e6d8ca;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 4px 10px;
+  border-radius: 4px;
+  max-width: 220px;
+  white-space: normal;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 200;
+}
+[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #4b162d;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 200;
+}
+[data-tooltip]:hover::after,
+[data-tooltip]:focus-visible::after,
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::before { opacity: 1; }
 </style>

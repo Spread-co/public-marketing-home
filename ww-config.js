@@ -202,6 +202,90 @@ export default {
       bindable: true,
       defaultValue: '/signin',
     },
+
+    // ── Stats bar ──────────────────────────────────────────────────────────
+    showStats: {
+      label: { en: 'Show Stats Bar' },
+      type: 'OnOff',
+      defaultValue: true,
+    },
+    stats: {
+      label: { en: 'Stat Items' },
+      type: 'Array',
+      bindable: true,
+      defaultValue: [
+        { number: '40+',   label: 'Partner farms' },
+        { number: '5,000+', label: 'Households served' },
+        { number: '3',     label: 'Regions' },
+        { number: '48h',   label: 'Farm to door' },
+      ],
+      options: {
+        expandable: true,
+        getItemLabel(item) { return item?.label || 'Stat'; },
+        item: {
+          type: 'Object',
+          defaultValue: { number: '', label: '' },
+          options: {
+            item: {
+              number: { label: { en: 'Number / Value' }, type: 'Text' },
+              label:  { label: { en: 'Label'          }, type: 'Text' },
+            },
+          },
+        },
+      },
+    },
+
+    // ── Farm story ─────────────────────────────────────────────────────────
+    showFarmStory: {
+      label: { en: 'Show Farm Story Section' },
+      type: 'OnOff',
+      defaultValue: true,
+    },
+    farmsEyebrow: {
+      label: { en: 'Farm Section Eyebrow' },
+      type: 'Text',
+      bindable: true,
+      defaultValue: 'Our farm network',
+    },
+    farmsHeadline: {
+      label: { en: 'Farm Section Headline' },
+      type: 'Text',
+      bindable: true,
+      defaultValue: 'Real farms, real people',
+    },
+    farmsBody: {
+      label: { en: 'Farm Section Body' },
+      type: 'Text',
+      bindable: true,
+      defaultValue: 'We partner exclusively with small-scale, sustainable growers who share our belief that good food starts from healthy soil and fair practice.',
+    },
+    farmPartners: {
+      label: { en: 'Farm Partners' },
+      type: 'Array',
+      bindable: true,
+      defaultValue: [
+        { name: 'Sunrise Organics',  region: 'Hunter Valley, NSW', description: 'Certified organic fruit and vegetables grown without synthetic inputs since 1998.', imageUrl: '' },
+        { name: 'Red Hill Farm',     region: 'Mornington Peninsula, VIC', description: 'Heritage-variety stone fruits and seasonal greens from a family-run property.', imageUrl: '' },
+        { name: 'Valley Floor Co.',  region: 'Yarra Valley, VIC', description: 'Pasture-raised eggs, artisan preserves, and rare-breed pork raised with care.', imageUrl: '' },
+      ],
+      options: {
+        expandable: true,
+        getItemLabel(item) { return item?.name || 'Farm'; },
+        item: {
+          type: 'Object',
+          defaultValue: { name: '', region: '', description: '', imageUrl: '' },
+          options: {
+            item: {
+              name:        { label: { en: 'Farm Name'    }, type: 'Text' },
+              region:      { label: { en: 'Region'       }, type: 'Text' },
+              description: { label: { en: 'Description'  }, type: 'Text' },
+              imageUrl:    { label: { en: 'Image URL'    }, type: 'Text' },
+            },
+          },
+        },
+      },
+    },
+
     portalTarget: {
       label: { en: 'Portal Target' },
       type: 'Text',
