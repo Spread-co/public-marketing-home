@@ -306,6 +306,8 @@ export default {
   font-family: var(--mh-font);
   color: var(--mh-text);
   background: var(--mh-bg);
+  max-width: 1440px;
+  margin-inline: auto;
 }
 
 .mktg-home *, .mktg-home *::before, .mktg-home *::after { box-sizing: border-box; margin: 0; padding: 0; }
