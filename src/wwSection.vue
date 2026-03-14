@@ -30,46 +30,46 @@
     <!-- ── HERO ─────────────────────────────────────────────────────────── -->
     <section class="mktg-home__hero">
       <div class="mktg-home__hero-content">
-        <span class="mktg-home__eyebrow" v-if="content.heroEyebrow">{{ content.heroEyebrow }}</span>
-        <h1 class="mktg-home__hero-headline" v-if="content.heroHeadline">{{ content.heroHeadline }}</h1>
-        <p class="mktg-home__hero-sub" v-if="content.heroSubheadline">{{ content.heroSubheadline }}</p>
+        <span class="mktg-home__eyebrow" v-if="eff.heroEyebrow">{{ eff.heroEyebrow }}</span>
+        <h1 class="mktg-home__hero-headline" v-if="eff.heroHeadline">{{ eff.heroHeadline }}</h1>
+        <p class="mktg-home__hero-sub" v-if="eff.heroSubheadline">{{ eff.heroSubheadline }}</p>
 
         <div class="mktg-home__hero-actions">
           <a
-            v-if="content.heroPrimaryLabel"
+            v-if="eff.heroPrimaryLabel"
             class="mktg-home__btn mktg-home__btn--primary"
-            :href="content.heroPrimaryUrl || '/signin'"
+            :href="eff.heroPrimaryUrl"
             @click.prevent="heroCta('primary')"
             data-tooltip="Check if we deliver to your postcode"
-          >{{ content.heroPrimaryLabel }}</a>
+          >{{ eff.heroPrimaryLabel }}</a>
           <a
-            v-if="content.heroSecondaryLabel"
+            v-if="eff.heroSecondaryLabel"
             class="mktg-home__btn mktg-home__btn--secondary"
-            :href="content.heroSecondaryUrl || '/about'"
+            :href="eff.heroSecondaryUrl"
             @click.prevent="heroCta('secondary')"
             data-tooltip="Learn more about how Spread.co works"
-          >{{ content.heroSecondaryLabel }}</a>
+          >{{ eff.heroSecondaryLabel }}</a>
         </div>
 
         <!-- Social proof inline -->
-        <div class="mktg-home__hero-trust" v-if="content.showSocialProof">
+        <div class="mktg-home__hero-trust" v-if="eff.showSocialProof">
           <div class="mktg-home__stars" aria-label="4.9 out of 5 stars">
             <svg v-for="i in 5" :key="i" viewBox="0 0 16 16" width="16" height="16" :fill="i <= 4 ? '#BEAD38' : 'none'" stroke="#BEAD38" stroke-width="1.5" aria-hidden="true"><polygon points="8 1 10.18 5.41 15 6.09 11.5 9.5 12.36 14.27 8 12 3.64 14.27 4.5 9.5 1 6.09 5.82 5.41 8 1"/></svg>
           </div>
-          <span class="mktg-home__trust-text"><strong>{{ content.rating || '4.9' }}</strong> · {{ content.reviewCount || '2,400+' }} {{ content.socialProofText || 'households across Australia' }}</span>
+          <span class="mktg-home__trust-text"><strong>{{ eff.rating }}</strong> · {{ eff.reviewCount }} {{ eff.socialProofText }}</span>
         </div>
       </div>
 
-      <div class="mktg-home__hero-media" v-if="content.heroImageUrl">
-        <img :src="content.heroImageUrl" alt="Fresh produce delivery" class="mktg-home__hero-img" loading="eager" />
+      <div class="mktg-home__hero-media" v-if="eff.heroImageUrl">
+        <img :src="eff.heroImageUrl" alt="Fresh produce delivery" class="mktg-home__hero-img" loading="eager" />
       </div>
     </section>
 
     <!-- ── STATS ────────────────────────────────────────────────────────── -->
-    <section class="mktg-home__stats" v-if="content.showStats && content.stats && content.stats.length">
+    <section class="mktg-home__stats" v-if="eff.showStats && eff.stats.length">
       <div class="mktg-home__stats-inner">
         <dl class="mktg-home__stats-grid">
-          <div v-for="(stat, i) in content.stats" :key="i" class="mktg-home__stat">
+          <div v-for="(stat, i) in eff.stats" :key="i" class="mktg-home__stat">
             <dt class="mktg-home__stat-number">{{ stat.number }}</dt>
             <dd class="mktg-home__stat-label">{{ stat.label }}</dd>
           </div>
@@ -78,11 +78,11 @@
     </section>
 
     <!-- ── VALUE PROPS ──────────────────────────────────────────────────── -->
-    <section class="mktg-home__values" v-if="content.showValueProps && valueProps.length">
+    <section class="mktg-home__values" v-if="eff.showValueProps && eff.valueProps.length">
       <div class="mktg-home__section-inner">
-        <h2 class="mktg-home__section-headline" v-if="content.valuePropHeadline">{{ content.valuePropHeadline }}</h2>
+        <h2 class="mktg-home__section-headline" v-if="eff.valuePropHeadline">{{ eff.valuePropHeadline }}</h2>
         <div class="mktg-home__values-grid">
-          <article v-for="(vp, i) in valueProps" :key="i" class="mktg-home__value-card">
+          <article v-for="(vp, i) in eff.valueProps" :key="i" class="mktg-home__value-card">
             <div class="mktg-home__value-icon" v-html="getIcon(vp.icon)" aria-hidden="true"></div>
             <h3 class="mktg-home__value-title">{{ vp.title }}</h3>
             <p class="mktg-home__value-body">{{ vp.body }}</p>
@@ -92,15 +92,15 @@
     </section>
 
     <!-- ── FARM STORY ───────────────────────────────────────────────────── -->
-    <section class="mktg-home__farms" v-if="content.showFarmStory && farmPartners.length">
+    <section class="mktg-home__farms" v-if="eff.showFarmStory && eff.farmPartners.length">
       <div class="mktg-home__section-inner">
         <div class="mktg-home__farms-header">
-          <span class="mktg-home__eyebrow" v-if="content.farmsEyebrow">{{ content.farmsEyebrow }}</span>
-          <h2 class="mktg-home__section-headline" v-if="content.farmsHeadline">{{ content.farmsHeadline }}</h2>
-          <p class="mktg-home__farms-intro" v-if="content.farmsBody">{{ content.farmsBody }}</p>
+          <span class="mktg-home__eyebrow" v-if="eff.farmsEyebrow">{{ eff.farmsEyebrow }}</span>
+          <h2 class="mktg-home__section-headline" v-if="eff.farmsHeadline">{{ eff.farmsHeadline }}</h2>
+          <p class="mktg-home__farms-intro" v-if="eff.farmsBody">{{ eff.farmsBody }}</p>
         </div>
         <div class="mktg-home__farms-grid">
-          <article v-for="(farm, i) in farmPartners" :key="i" class="mktg-home__farm-card">
+          <article v-for="(farm, i) in eff.farmPartners" :key="i" class="mktg-home__farm-card">
             <div class="mktg-home__farm-img-wrap">
               <img v-if="farm.imageUrl" :src="farm.imageUrl" :alt="farm.name" class="mktg-home__farm-img" loading="lazy" />
               <div v-else class="mktg-home__farm-img-placeholder" aria-hidden="true">
@@ -121,11 +121,11 @@
     </section>
 
     <!-- ── HOW IT WORKS ─────────────────────────────────────────────────── -->
-    <section class="mktg-home__how" v-if="content.showHowItWorks && steps.length">
+    <section class="mktg-home__how" v-if="eff.showHowItWorks && eff.steps.length">
       <div class="mktg-home__section-inner">
-        <h2 class="mktg-home__section-headline" v-if="content.howHeadline">{{ content.howHeadline }}</h2>
+        <h2 class="mktg-home__section-headline" v-if="eff.howHeadline">{{ eff.howHeadline }}</h2>
         <div class="mktg-home__steps">
-          <article v-for="(step, i) in steps" :key="i" class="mktg-home__step">
+          <article v-for="(step, i) in eff.steps" :key="i" class="mktg-home__step">
             <div class="mktg-home__step-number" aria-hidden="true">{{ step.number }}</div>
             <div class="mktg-home__step-connector" v-if="i < steps.length - 1" aria-hidden="true"></div>
             <h3 class="mktg-home__step-title">{{ step.title }}</h3>
@@ -136,16 +136,16 @@
     </section>
 
     <!-- ── BOTTOM CTA ───────────────────────────────────────────────────── -->
-    <section class="mktg-home__cta" v-if="content.showBottomCta">
-      <h2 class="mktg-home__cta-headline" v-if="content.bottomCtaHeadline">{{ content.bottomCtaHeadline }}</h2>
-      <p class="mktg-home__cta-body" v-if="content.bottomCtaBody">{{ content.bottomCtaBody }}</p>
+    <section class="mktg-home__cta" v-if="eff.showBottomCta">
+      <h2 class="mktg-home__cta-headline" v-if="eff.bottomCtaHeadline">{{ eff.bottomCtaHeadline }}</h2>
+      <p class="mktg-home__cta-body" v-if="eff.bottomCtaBody">{{ eff.bottomCtaBody }}</p>
       <a
-        v-if="content.bottomCtaLabel"
+        v-if="eff.bottomCtaLabel"
         class="mktg-home__btn mktg-home__btn--primary mktg-home__btn--large"
-        :href="content.bottomCtaUrl || '/signin'"
+        :href="eff.bottomCtaUrl"
         @click.prevent="$emit('trigger-event', { name: 'home:bottom-cta', event: {} })"
         data-tooltip="Create your account and check area availability"
-      >{{ content.bottomCtaLabel }}</a>
+      >{{ eff.bottomCtaLabel }}</a>
     </section>
 
   </div>
@@ -241,11 +241,13 @@ export default {
       dismissedIds:     [],
       _pollTimer:       null,
       _realtimeChannel: null,
+      db:               {},
     };
   },
 
   mounted() {
     this._startAlerts();
+    this._loadSiteContent();
   },
 
   beforeUnmount() {
@@ -254,21 +256,69 @@ export default {
   },
 
   computed: {
-    valueProps() {
-      return Array.isArray(this.content.valueProps) ? this.content.valueProps : [];
-    },
-    steps() {
-      return Array.isArray(this.content.steps) ? this.content.steps : [];
-    },
     visibleAlerts() {
       return this.liveAlerts.filter(a => !this.dismissedIds.includes(a.id)).slice(0, 2);
     },
-    farmPartners() {
-      return Array.isArray(this.content.farmPartners) ? this.content.farmPartners : [];
+    eff() {
+      const db = this.db;
+      const c  = this.content;
+      const pa = (raw) => { if (!raw) return null; try { const a = JSON.parse(raw); return Array.isArray(a) ? a : null; } catch { return null; } };
+      const dbBool = (key, fallback) => (db[key] !== undefined && db[key] !== '') ? db[key] !== 'false' : !!fallback;
+      return {
+        heroEyebrow:        db['marketing_home.hero_eyebrow']             || c.heroEyebrow        || '',
+        heroHeadline:       db['marketing_home.hero_headline']            || c.heroHeadline        || '',
+        heroSubheadline:    db['marketing_home.hero_subheadline']         || c.heroSubheadline     || '',
+        heroPrimaryLabel:   db['marketing_home.hero_primary_label']       || c.heroPrimaryLabel    || '',
+        heroPrimaryUrl:     db['marketing_home.hero_primary_url']         || c.heroPrimaryUrl      || '/signin',
+        heroSecondaryLabel: db['marketing_home.hero_secondary_label']     || c.heroSecondaryLabel  || '',
+        heroSecondaryUrl:   db['marketing_home.hero_secondary_url']       || c.heroSecondaryUrl    || '/about',
+        heroImageUrl:       db['marketing_home.hero_image_url']           || c.heroImageUrl        || '',
+        showStats:          dbBool('marketing_home.stats.active',         c.showStats),
+        showValueProps:     dbBool('marketing_home.valueProps.active',    c.showValueProps),
+        showFarmStory:      dbBool('marketing_home.farmStory.active',     c.showFarmStory),
+        showHowItWorks:     dbBool('marketing_home.howItWorks.active',    c.showHowItWorks),
+        showSocialProof:    dbBool('marketing_home.socialProof.active',   c.showSocialProof),
+        showBottomCta:      dbBool('marketing_home.bottomCta.active',     c.showBottomCta),
+        rating:             db['marketing_home.social_proof_rating']       || c.rating             || '4.9',
+        reviewCount:        db['marketing_home.social_proof_review_count'] || c.reviewCount        || '2,400+',
+        socialProofText:    db['marketing_home.social_proof_text']         || c.socialProofText     || 'households across Australia',
+        valuePropHeadline:  db['marketing_home.value_prop_headline']       || c.valuePropHeadline   || '',
+        howHeadline:        db['marketing_home.how_headline']              || c.howHeadline         || '',
+        farmsEyebrow:       db['marketing_home.farms_eyebrow']             || c.farmsEyebrow        || '',
+        farmsHeadline:      db['marketing_home.farms_headline']            || c.farmsHeadline       || '',
+        farmsBody:          db['marketing_home.farms_body']                || c.farmsBody           || '',
+        bottomCtaHeadline:  db['marketing_home.bottom_cta_headline']       || c.bottomCtaHeadline   || '',
+        bottomCtaBody:      db['marketing_home.bottom_cta_body']           || c.bottomCtaBody       || '',
+        bottomCtaLabel:     db['marketing_home.bottom_cta_label']          || c.bottomCtaLabel      || '',
+        bottomCtaUrl:       db['marketing_home.bottom_cta_url']            || c.bottomCtaUrl        || '/signin',
+        stats:        pa(db['marketing_home.stats'])         || (Array.isArray(c.stats)        ? c.stats        : []),
+        valueProps:   pa(db['marketing_home.value_props'])   || (Array.isArray(c.valueProps)   ? c.valueProps   : []),
+        farmPartners: pa(db['marketing_home.farm_partners']) || (Array.isArray(c.farmPartners) ? c.farmPartners : []),
+        steps:        pa(db['marketing_home.steps'])         || (Array.isArray(c.steps)        ? c.steps        : []),
+      };
     },
   },
 
   methods: {
+    async _loadSiteContent() {
+      const url = this.content?.supabaseUrl;
+      const key = this.content?.supabaseAnonKey;
+      if (!url || !key) return;
+      try {
+        const res = await fetch(`${url}/rest/v1/rpc/get_site_content`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: key },
+          body: JSON.stringify({}),
+        });
+        if (!res.ok) return;
+        const rows = await res.json();
+        if (!Array.isArray(rows)) return;
+        const map = {};
+        for (const r of rows) map[r.content_key] = r.content_value;
+        this.db = map;
+      } catch (_) {}
+    },
+
     _startAlerts() {
       if (!this.content.showLiveAlerts) return;
       if (!this.content.supabaseUrl || !this.content.supabaseAnonKey) return;
@@ -317,7 +367,7 @@ export default {
       const name = type === 'primary' ? 'home:hero-cta-primary' : 'home:hero-cta-secondary';
       this.$emit('trigger-event', { name, event: {} });
       try {
-        const url = type === 'primary' ? this.content.heroPrimaryUrl : this.content.heroSecondaryUrl;
+        const url = type === 'primary' ? this.eff.heroPrimaryUrl : this.eff.heroSecondaryUrl;
         if (url) {
           const win = typeof wwLib !== 'undefined' ? wwLib.getFrontWindow() : window;
           win.location.href = url;
@@ -644,7 +694,7 @@ export default {
   line-height: 1.65;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 600px) {
   .mktg-home__steps { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 900px) {
@@ -798,7 +848,7 @@ export default {
   color: var(--mh-text-2);
   line-height: 1.6;
 }
-@media (min-width: 640px) {
+@media (min-width: 600px) {
   .mktg-home__farms-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 900px) {
@@ -847,4 +897,47 @@ export default {
 [data-tooltip]:focus-visible::after,
 [data-tooltip]:hover::before,
 [data-tooltip]:focus-visible::before { opacity: 1; }
+
+/* ── Responsive breakpoints (12-zone spec) ───────────────────────────────── */
+
+/* Mobile small ≤375px */
+@media (max-width: 375px) {
+  .mktg-home__hero { padding: 48px 16px 56px; gap: 28px; }
+  .mktg-home__hero-img { height: 200px; }
+  .mktg-home__btn--large { padding: 14px 24px; font-size: 0.9375rem; }
+  .mktg-home__values { padding: 56px 16px; }
+  .mktg-home__how { padding: 56px 16px; }
+  .mktg-home__farms { padding: 56px 16px; }
+  .mktg-home__cta { padding: 56px 16px; }
+  .mktg-home__stats { padding: 32px 16px; }
+}
+
+/* iPad big 1100–1199px */
+@media (min-width: 1100px) {
+  .mktg-home__hero { padding: 108px 72px 108px; column-gap: 88px; }
+  .mktg-home__hero-img { height: 560px; }
+  .mktg-home__values { padding: 100px 72px; }
+  .mktg-home__how { padding: 100px 72px; }
+  .mktg-home__farms { padding: 100px 72px; }
+  .mktg-home__cta { padding: 104px 72px; }
+  .mktg-home__stats { padding: 56px 72px; }
+}
+
+/* Laptop small 1200–1279px */
+@media (min-width: 1200px) {
+  .mktg-home__hero { padding: 112px 80px 112px; }
+  .mktg-home__cta { padding: 112px 80px; }
+}
+
+/* Desktop small 1440–1919px */
+@media (min-width: 1440px) {
+  .mktg-home__hero { padding: 128px 96px 128px; }
+  .mktg-home__hero-img { height: 600px; }
+  .mktg-home__values { padding: 112px 96px; }
+  .mktg-home__how { padding: 112px 96px; }
+  .mktg-home__farms { padding: 112px 96px; }
+  .mktg-home__cta { padding: 128px 96px; }
+  .mktg-home__stats { padding: 64px 96px; }
+  .mktg-home__section-inner { max-width: 1200px; }
+}
 </style>
