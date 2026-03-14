@@ -638,4 +638,10 @@ export default {
 @media (min-width: 768px) {
   .mktg-home__cta { padding: 96px 48px; }
 }
+@media (max-width: 479px) {
+  .mktg-home__cta { padding: 64px 16px; }
+}
+@media (min-width: 1280px) {
+  .mktg-home__cta { padding: 120px 80px; }
+}
 </style>
