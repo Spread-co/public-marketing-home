@@ -940,4 +940,36 @@ export default {
   .mktg-home__stats { padding: 64px 96px; }
   .mktg-home__section-inner { max-width: 1200px; }
 }
+
+/* ── Dark mode ──────────────────────────────────────────────────────────── */
+/* Token overrides — most elements inherit automatically via CSS vars */
+:global(html.dark) .mktg-home {
+  --mh-text:    #e6d8ca;
+  --mh-text-2:  rgba(230, 216, 202, 0.65);
+  --mh-surface: #18181b;
+  --mh-bg:      #000000;
+  --mh-bg-warm: #1f1218;
+  --mh-border:  rgba(230, 216, 202, 0.12);
+  background: #000000;
+  color: #e6d8ca;
+}
+/* Titles that use --mh-primary (Tyrian #4b162d) as text colour — invisible on dark bg */
+:global(html.dark) .mktg-home__hero-headline,
+:global(html.dark) .mktg-home__section-headline,
+:global(html.dark) .mktg-home__value-title,
+:global(html.dark) .mktg-home__step-title,
+:global(html.dark) .mktg-home__farm-name { color: #e6d8ca; }
+/* Secondary button: Tyrian outline is invisible on dark bg; use beige instead */
+:global(html.dark) .mktg-home__btn--secondary {
+  color: #e6d8ca;
+  border-color: rgba(230, 216, 202, 0.35);
+}
+:global(html.dark) .mktg-home__btn--secondary:hover { background: rgba(230, 216, 202, 0.08); }
+/* Alert severity colours for dark backgrounds */
+:global(html.dark) .mktg-home__alert--critical,
+:global(html.dark) .mktg-home__alert--outage    { background: rgba(209,67,67,0.08); border-bottom-color: rgba(209,67,67,0.25); color: #fca5a5; }
+:global(html.dark) .mktg-home__alert--warning,
+:global(html.dark) .mktg-home__alert--degraded  { background: rgba(217,119,6,0.08); border-bottom-color: rgba(253,230,138,0.2); color: #fbbf24; }
+:global(html.dark) .mktg-home__alert--info,
+:global(html.dark) .mktg-home__alert--maintenance { background: rgba(14,165,233,0.08); border-bottom-color: rgba(14,165,233,0.2); color: #38bdf8; }
 </style>
